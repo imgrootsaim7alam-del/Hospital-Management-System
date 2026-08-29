@@ -1,0 +1,175 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile with role, contact, and account status",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user identifier" },
+        "name": { "type": "string", "description": "Full legal name" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "role": { 
+          "type": "string", 
+          "enum": ["Admin", "Doctor", "Nurse", "Receptionist", "Patient"], 
+          "description": "Assigned system role" 
+        },
+        "status": { "type": "string", "description": "Account status (e.g. Active, Inactive)" }
+      },
+      "required": ["uid", "name", "email", "phone", "role", "status"]
+    },
+    "departments": {
+      "title": "Department",
+      "description": "Hospital medical or operational department",
+      "type": "object",
+      "properties": {
+        "departmentId": { "type": "string", "description": "Department identifier" },
+        "departmentName": { "type": "string", "description": "Name of department" },
+        "description": { "type": "string", "description": "Overview of department services" },
+        "contactInformation": { "type": "string", "description": "Contact info / extension" },
+        "status": { "type": "string", "description": "Operational status (Active, Inactive)" }
+      },
+      "required": ["departmentId", "departmentName", "description", "contactInformation", "status"]
+    },
+    "patients": {
+      "title": "Patient",
+      "description": "Patient demographics and emergency contact",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string", "description": "Hospital patient record ID" },
+        "name": { "type": "string", "description": "Patient full name" },
+        "dob": { "type": "string", "format": "date", "description": "Date of birth (YYYY-MM-DD)" },
+        "gender": { "type": "string", "enum": ["Male", "Female", "Other"], "description": "Gender" },
+        "phone": { "type": "string", "description": "Contact phone number" },
+        "address": { "type": "string", "description": "Residential address" },
+        "emergencyContact": { "type": "string", "description": "Emergency contact name and phone" }
+      },
+      "required": ["patientId", "name", "dob", "gender", "phone", "address", "emergencyContact"]
+    },
+    "appointments": {
+      "title": "Appointment",
+      "description": "Scheduled outpatient or specialist consultation",
+      "type": "object",
+      "properties": {
+        "appointmentId": { "type": "string", "description": "Appointment record ID" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "doctorId": { "type": "string", "description": "Referenced doctor ID" },
+        "departmentId": { "type": "string", "description": "Referenced department ID" },
+        "date": { "type": "string", "format": "date", "description": "Appointment date" },
+        "time": { "type": "string", "description": "Scheduled time slot" },
+        "reason": { "type": "string", "description": "Chief complaint / reason" },
+        "status": { "type": "string", "description": "Status (Scheduled, Waiting, In Consultation, Completed, Cancelled)" }
+      },
+      "required": ["appointmentId", "patientId", "doctorId", "departmentId", "date", "time", "reason", "status"]
+    },
+    "admissions": {
+      "title": "Admission",
+      "description": "In-patient hospital ward/bed admission record",
+      "type": "object",
+      "properties": {
+        "admissionId": { "type": "string", "description": "Admission record ID" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "doctorId": { "type": "string", "description": "Admitting physician ID" },
+        "wardBed": { "type": "string", "description": "Ward name & Bed number" },
+        "admissionDate": { "type": "string", "description": "Date and time of admission" },
+        "reason": { "type": "string", "description": "Primary diagnosis / admission cause" },
+        "status": { "type": "string", "description": "Admission status (Admitted, Discharged, Transferred, Under Observation)" }
+      },
+      "required": ["admissionId", "patientId", "doctorId", "wardBed", "admissionDate", "reason", "status"]
+    },
+    "medical_records": {
+      "title": "Medical Record",
+      "description": "Clinical encounter diagnostics, symptoms, and treatment plan",
+      "type": "object",
+      "properties": {
+        "recordId": { "type": "string", "description": "Medical record ID" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "doctorId": { "type": "string", "description": "Attending physician ID" },
+        "symptoms": { "type": "string", "description": "Patient reported symptoms" },
+        "diagnosis": { "type": "string", "description": "Clinical diagnosis" },
+        "treatment": { "type": "string", "description": "Prescribed medical treatment" },
+        "clinicalNotes": { "type": "string", "description": "Detailed clinical notes and exam observations" },
+        "date": { "type": "string", "format": "date", "description": "Record date" }
+      },
+      "required": ["recordId", "patientId", "doctorId", "symptoms", "diagnosis", "treatment", "clinicalNotes", "date"]
+    },
+    "prescriptions": {
+      "title": "Prescription",
+      "description": "Electronic prescription item with dosage and schedule",
+      "type": "object",
+      "properties": {
+        "prescriptionId": { "type": "string", "description": "Prescription identifier" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "doctorId": { "type": "string", "description": "Prescribing doctor ID" },
+        "medicine": { "type": "string", "description": "Pharmaceutical brand / generic medicine" },
+        "dosage": { "type": "string", "description": "Dosage (e.g. 500mg, 10ml)" },
+        "frequency": { "type": "string", "description": "Frequency (e.g. 1-0-1, Once daily)" },
+        "duration": { "type": "string", "description": "Duration (e.g. 7 days, 1 month)" },
+        "instructions": { "type": "string", "description": "Intake instructions (e.g. After meals)" }
+      },
+      "required": ["prescriptionId", "patientId", "doctorId", "medicine", "dosage", "frequency", "duration", "instructions"]
+    },
+    "vital_signs": {
+      "title": "Vital Signs",
+      "description": "Patient physiological telemetry log",
+      "type": "object",
+      "properties": {
+        "vitalRecordId": { "type": "string", "description": "Vital log ID" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "nurseId": { "type": "string", "description": "Recording nurse ID" },
+        "temperature": { "type": "string", "description": "Body temperature in °F (e.g. 98.6°F)" },
+        "pulse": { "type": "string", "description": "Pulse rate in bpm (e.g. 74 bpm)" },
+        "bloodPressure": { "type": "string", "description": "Blood pressure (e.g. 120/80 mmHg)" },
+        "spO2": { "type": "string", "description": "Blood oxygen saturation percentage (e.g. 98%)" },
+        "dateTime": { "type": "string", "description": "Timestamp of observation" }
+      },
+      "required": ["vitalRecordId", "patientId", "nurseId", "temperature", "pulse", "bloodPressure", "spO2", "dateTime"]
+    },
+    "nursing_notes": {
+      "title": "Nursing Note",
+      "description": "Nursing observations, interventions and care provided",
+      "type": "object",
+      "properties": {
+        "noteId": { "type": "string", "description": "Nursing note ID" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "nurseId": { "type": "string", "description": "Authoring nurse ID" },
+        "observation": { "type": "string", "description": "Physical observation of patient state" },
+        "careProvided": { "type": "string", "description": "Interventions, injections, IV fluids given" },
+        "note": { "type": "string", "description": "Shift hand-over notes and general remarks" },
+        "dateTime": { "type": "string", "description": "Timestamp of note" }
+      },
+      "required": ["noteId", "patientId", "nurseId", "observation", "careProvided", "note", "dateTime"]
+    },
+    "bills": {
+      "title": "Bill",
+      "description": "Patient hospital invoice and billing statement",
+      "type": "object",
+      "properties": {
+        "billId": { "type": "string", "description": "Bill invoice identifier" },
+        "patientId": { "type": "string", "description": "Referenced patient ID" },
+        "services": { "type": "string", "description": "Billed services / itemized list" },
+        "amount": { "type": "number", "description": "Subtotal amount in BDT / Currency" },
+        "discount": { "type": "number", "description": "Discount applied" },
+        "total": { "type": "number", "description": "Net payable total amount" },
+        "paymentStatus": { "type": "string", "enum": ["Paid", "Pending", "Partial"], "description": "Payment status" },
+        "paymentDate": { "type": "string", "description": "Payment settlement date or due date" }
+      },
+      "required": ["billId", "patientId", "services", "amount", "discount", "total", "paymentStatus", "paymentDate"]
+    },
+    "messages": {
+      "title": "Chat Message",
+      "description": "Real-time communication, medical inquiries, and hospital staff chat messages",
+      "type": "object",
+      "properties": {
+        "messageId": { "type": "string", "description": "Unique chat message ID" },
+        "senderId": { "type": "string", "description": "Sender User ID" },
+        "senderName": { "type": "string", "description": "Sender full name" },
+        "senderRole": { "type": "string", "description": "Sender system role" },
+        "text": { "type": "string", "description": "Message text body" },
+        "channel": { "type": "string", "description": "Channel or room (general, consultation, nursing, emergency)" },
+        "createdAt": { "type": "string", "description": "Message timestamp" }
+      },
+      "required": ["messageId", "senderId", "senderName", "senderRole", "text", "channel", "createdAt"]
+    }
+  }
+}

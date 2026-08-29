@@ -1,0 +1,6 @@
+{
+  "name": "Hospital Management System",
+  "description": "Enterprise-grade Hospital Management System with role-based access control (Admin, Receptionist, Doctor, Nurse, Patient), patient records, appointments, and admissions powered by React, Tailwind CSS, and Firebase v10.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
